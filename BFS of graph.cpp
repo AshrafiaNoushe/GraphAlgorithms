@@ -1,46 +1,41 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cstring>
 using namespace std;
-class Solution {
-  public:
-    // Function to return Breadth First Traversal of given graph.
-    vector<int> bfs(int V, vector<int> adj[]) {
-        // Code here
-        queue<int>q;
-        vector<bool>visited(V,0);
-        vector<int>ans;
-        q.push(0);
-        visited[0]=1;
-        int node;
-        while(!q.empty()){
-            node = q.front();
-            ans.push_back(node);
-            q.pop();
-            for(int i=0;i<adj[node].size();i++){
-                if(!visited[adj[node][i]]){
-                    visited[adj[node][i]]=1;
-                    q.push(adj[node][i]);
-                }
-            }
+const int mx = 1e5+123;
+bool vis[mx];
+vector<int>adjM[mx];
+void bfs(int start){
+    queue<int>q;
+    cout<<start<<"child nodes: "<<"\n";
+    q.push(start);
+    vis[start]=1;
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+        for(auto it:adjM[u]){
+        	if(!vis[it]){
+        		cout<<it<<" ";
+        		vis[it]=1;
+        		q.push(it);
+        	}
         }
-        return ans;
-
-        
     }
-};
+}
 int main()
 {
-int V=5;
-vector<int> adj[V] = {
-        {2, 3, 1},
-        {0},
-        {0, 4},
-        {0},
-        {2}
-    };
-Solution obj;
-vector<int> ans = obj.bfs(V,adj);
-for(auto i:ans){
-    cout<<i<<" ";
-}
-return 0;
+    int m,n;
+    cin>>m>>n;
+    for(int i=1;i<=m;i++){
+        int u,v;
+        cin>>u>>v;
+        adjM[u].push_back(v);
+        adjM[v].push_back(u);
+    }
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            bfs(i);
+        }
+    }
 }
